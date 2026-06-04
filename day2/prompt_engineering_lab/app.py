@@ -1,6 +1,6 @@
 """
-Day 2 Lab: Prompt Engineering for Data Engineers
-Sigma DataTech Mission Control — GenAI for DE Bootcamp, Sigmoid Bangalore 2026
+Prompt Engineering for Data Engineers
+DevPro Academy
 """
 
 import copy
@@ -22,7 +22,7 @@ from prompts import DE_PROMPTS, ROLES, DEFAULT_SCHEMA
 load_dotenv()
 
 st.set_page_config(
-    page_title="Day 2 · Prompt Engineering for DE",
+    page_title="Prompt Engineering for Data Engineers · DevPro Academy",
     page_icon="🧪",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -32,7 +32,7 @@ st.set_page_config(
 def check_password():
     if st.session_state.get("authenticated"):
         return True
-    st.markdown("## 🔐 Sigma DataTech — Mission Control")
+    st.markdown("## 🔐 DevPro Academy — Prompt Engineering Lab")
     pwd = st.text_input("Enter access password:", type="password")
     if st.button("Enter"):
         if pwd == st.secrets.get("APP_PASSWORD", ""):
@@ -304,7 +304,7 @@ def show_usage(usage, elapsed: float = None):
 def render_sidebar():
     with st.sidebar:
         st.title("🧪 Prompt Lab")
-        st.caption("Day 2 · Sigma DataTech · Sigmoid Bangalore")
+        st.caption("DevPro Academy · Prompt Engineering for Data Engineers")
         st.divider()
 
         st.subheader("⚡ Your Setup")
@@ -421,7 +421,7 @@ def render_sidebar():
             label_visibility="collapsed",
         )
         st.divider()
-        st.caption("Sigma DataTech Mission Control")
+        st.caption("DevPro Academy")
         return module
 
 
@@ -429,8 +429,17 @@ def render_sidebar():
 #  MODULE 0 — INTRODUCTION
 # ══════════════════════════════════════════════════════════════════════════════
 def page_home():
-    st.title("🧪 Prompt Engineering for Data Engineers")
-    st.markdown("#### Day 2 · Sigma DataTech Mission Control · Sigmoid Bangalore")
+    st.markdown("""
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+        <div>
+            <h1 style="margin:0; font-size:28px;">🧪 Prompt Engineering for Data Engineers</h1>
+        </div>
+        <div style="text-align:right; padding-top:4px;">
+            <div style="font-size:13px; font-weight:700; color:#2563eb; letter-spacing:0.5px;">DevPro Academy Presents</div>
+            <div style="font-size:16px; font-weight:800; color:#1e293b;">Prompt Engineering for Data Engineers</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     st.divider()
 
     col1, col2 = st.columns([3, 2])
@@ -439,7 +448,7 @@ def page_home():
         st.markdown("""
         ### 🎯 Your Mission Today
 
-        You have joined **Sigma DataTech's AI Infrastructure team**.
+        You are an **AI-enabled Data Engineer** working on real-world pipelines.
 
         Yesterday you benchmarked 3 AI models. Today you learn to **get 10x more value**
         from those same models — by writing better prompts.

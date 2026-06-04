@@ -176,7 +176,7 @@ h3 { font-size: 19px !important; }
 
 # ── Session helpers ────────────────────────────────────────────────────────────
 def get_backend() -> str:
-    return st.session_state.get("backend", "Gemini")
+    return st.session_state.get("backend", "Claude")
 
 def get_api_key() -> str:
     return st.session_state.get("api_key", "")
@@ -237,10 +237,7 @@ def notice_box(text: str):
 
 
 def backend_pill():
-    if get_backend() == "Ollama":
-        st.markdown(f'<span class="ollama-pill">🖥️ Ollama · {get_ollama_model()}</span>',
-                    unsafe_allow_html=True)
-    elif get_backend() == "Gemini":
+    if get_backend() == "Gemini":
         st.markdown(f'<span class="gemini-pill">✨ Gemini · {get_gemini_model()}</span>',
                     unsafe_allow_html=True)
     else:
@@ -250,11 +247,8 @@ def backend_pill():
 
 
 def run_btn(label: str = "🚀 Run", key: str = "run") -> bool:
-    if get_backend() == "Claude" and not get_api_key():
-        st.warning("⚠️ Enter your Claude API key in the sidebar first.")
-        return False
-    if get_backend() == "Gemini" and not get_gemini_key():
-        st.warning("⚠️ Enter your Google AI Studio key in the sidebar first. Get one free at aistudio.google.com")
+    if not get_api_key():
+        st.warning("⚠️ API key not configured. Check Streamlit secrets.")
         return False
     return st.button(label, key=key, type="primary")
 
@@ -307,101 +301,22 @@ def render_sidebar():
         st.caption("DevPro Academy · Prompt Engineering for Data Engineers")
         st.divider()
 
-        st.subheader("⚡ Your Setup")
-        backend_choice = st.radio(
-            "I am using:",
-            ["✨  Gemini  (Students — free)", "🖥️  Ollama Local  (Students)", "☁️  Claude API  (Trainer)"],
-            index=0,
-            help="Students use Gemini (free Google AI Studio key) or Ollama. Trainer uses Claude API.",
-        )
-        if "Gemini" in backend_choice:
-            st.session_state.backend = "Gemini"
-        elif "Ollama" in backend_choice:
-            st.session_state.backend = "Ollama"
-        else:
-            st.session_state.backend = "Claude"
-
+        st.markdown("☁️ **Powered by Claude API**")
+        st.caption("Anthropic · claude.ai")
         st.divider()
 
-        if get_backend() == "Gemini":
-            st.info("✨ Free for students — get your key at **aistudio.google.com → Get API Key**")
-            gkey = st.text_input(
-                "🔑 Google AI Studio Key",
-                type="password",
-                value=st.session_state.get("gemini_key", ""),
-                placeholder="AIza...",
-            )
-            if gkey:
-                st.session_state.gemini_key = gkey
+        # Pre-load API key from secrets
+        _default_key = st.secrets.get("ANTHROPIC_API_KEY", st.session_state.get("api_key", ""))
+        if _default_key and not st.session_state.get("api_key"):
+            st.session_state.api_key = _default_key
+        st.session_state.backend = "Claude"
 
-            if st.button("Test Connection", key="test_gemini"):
-                with st.spinner("Testing…"):
-                    t, _ = call_gemini(gkey, "Reply with the single word OK.",
-                                       [{"role": "user", "content": "ping"}],
-                                       max_tokens=10)
-                st.session_state.conn_status = "ok" if t else "error"
-
-            status = st.session_state.get("conn_status")
-            if status == "ok":
-                st.success("✓ Connected to Gemini")
-            elif status == "error":
-                st.error("✗ Invalid key — check aistudio.google.com")
-
-            st.session_state.gemini_model = st.radio(
-                "Model:",
-                ["gemini-3-flash-preview", "gemini-2.5-flash"],
-                captions=["Latest · free tier", "Stable · free tier"],
-                index=0,
-            )
-
-        elif get_backend() == "Ollama":
-            st.success("✅ No API key needed!")
-            st.caption("Ollama runs on your laptop. Make sure it's started.")
-            st.code("ollama serve", language="bash")
-            st.session_state.ollama_model = st.radio(
-                "Model:",
-                ["qwen2.5:7b", "qwen2.5:14b"],
-                captions=["8 GB RAM", "16 GB RAM"],
-                index=0,
-            )
-        else:
-            # Pre-fill from Streamlit secrets if available (deployed mode)
-            _default_key = st.secrets.get("ANTHROPIC_API_KEY", st.session_state.get("api_key", ""))
-            if _default_key and not st.session_state.get("api_key"):
-                st.session_state.api_key = _default_key
-            key = st.text_input(
-                "🔑 Anthropic API Key",
-                type="password",
-                value=st.session_state.get("api_key", ""),
-                placeholder="sk-ant-...",
-            )
-            if key:
-                st.session_state.api_key = key
-
-            if st.button("Test Connection", key="test_conn"):
-                with st.spinner("Testing…"):
-                    text, err = call_claude(key, "Reply with the single word OK.",
-                                            [{"role": "user", "content": "ping"}],
-                                            max_tokens=10)
-                if text:
-                    st.session_state.conn_status = "ok"
-                    st.session_state.conn_error = ""
-                else:
-                    st.session_state.conn_status = "error"
-                    st.session_state.conn_error = str(err)
-
-            status = st.session_state.get("conn_status")
-            if status == "ok":
-                st.success("✓ Connected to Claude")
-            elif status == "error":
-                st.error(f"✗ Error: {st.session_state.get('conn_error', 'unknown')}")
-
-            st.session_state.claude_model = st.radio(
-                "Model:",
-                ["claude-haiku-4-5-20251001", "claude-sonnet-4-6"],
-                captions=["Fast & cheap", "Higher quality"],
-                index=0,
-            )
+        st.session_state.claude_model = st.radio(
+            "Model:",
+            ["claude-haiku-4-5-20251001", "claude-sonnet-4-6"],
+            captions=["Fast · everyday tasks", "Powerful · complex reasoning"],
+            index=0,
+        )
 
         st.divider()
         st.subheader("📚 Modules")

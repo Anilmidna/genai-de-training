@@ -430,13 +430,12 @@ def render_sidebar():
 # ══════════════════════════════════════════════════════════════════════════════
 def page_home():
     st.markdown("""
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-        <div>
-            <h1 style="margin:0; font-size:28px;">🧪 Prompt Engineering for Data Engineers</h1>
-        </div>
-        <div style="text-align:right; padding-top:4px;">
-            <div style="font-size:13px; font-weight:700; color:#2563eb; letter-spacing:0.5px;">DevPro Academy Presents</div>
-            <div style="font-size:16px; font-weight:800; color:#1e293b;">Prompt Engineering for Data Engineers</div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h1 style="margin:0; font-size:28px;">🧪 Prompt Engineering for Data Engineers</h1>
+        <div style="background:linear-gradient(135deg,#1a2f5e,#2563eb); color:white; padding:8px 18px;
+                    border-radius:20px; text-align:center; white-space:nowrap;">
+            <div style="font-size:11px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.85;">Presented by</div>
+            <div style="font-size:15px; font-weight:800; letter-spacing:0.5px;">DevPro Academy</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -446,15 +445,16 @@ def page_home():
 
     with col1:
         st.markdown("""
-        ### 🎯 Your Mission Today
+        ### 🎯 What This Lab Teaches
 
-        You are an **AI-enabled Data Engineer** working on real-world pipelines.
+        Prompt engineering is the skill of getting **exactly what you want** from an AI model.
+        The same model. The same API call. Just a better-written prompt.
 
-        Yesterday you benchmarked 3 AI models. Today you learn to **get 10x more value**
-        from those same models — by writing better prompts.
+        Data Engineers who master this write SQL faster, debug pipelines quicker,
+        and generate documentation in seconds — all without leaving their editor.
 
-        A great prompt is like a great job brief: the clearer you are about what you want,
-        the better the result. By end of today, you will have built your own
+        A great prompt is like a great job brief: the clearer you are,
+        the better the result. By the end of this lab, you will have built your own
         **personal prompt library** for real Data Engineering tasks.
 
         ---
@@ -464,9 +464,9 @@ def page_home():
         Each module is a **mini-experiment**:
 
         1. Read the plain-English explanation (30 seconds)
-        2. Look at the prompt being sent to the AI — **this is the key learning**
-        3. Click **Run** and watch the response arrive
-        4. Change one thing and run again — see what breaks or improves
+        2. Look at the exact prompt being sent to the AI — **this is the key learning**
+        3. Click **Run** and watch the response
+        4. Tweak one thing and run again — see what changes
 
         > 💡 **The golden rule:** You learn prompting by *doing*, not by reading.
         > Click Run early and often.
@@ -481,7 +481,7 @@ def page_home():
                     unsafe_allow_html=True)
 
     with col2:
-        st.markdown("### 📋 Today's 8 Modules")
+        st.markdown("### 📋 8 Modules")
         modules = [
             ("1️⃣", "Shot-Based Prompting",  "Give examples → get better answers"),
             ("🧠", "Chain-of-Thought",       "Make AI think before answering"),
@@ -497,7 +497,7 @@ def page_home():
             st.markdown("")
 
         st.divider()
-        st.info("🏆 **Deliverable:** Export `de_prompt_library.md` from Module 8 before end of day.")
+        st.info("🏆 **Deliverable:** Export your `de_prompt_library.md` from Module 8 — your personal AI toolkit.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -568,7 +568,7 @@ def page_shot_prompting():
         """)
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown('<div class="prompt-box prompt-system"><div class="prompt-label sys-label">🟢 ROLE (System)</div>You are a SQL expert at Sigma DataTech. Match our coding standards exactly.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="prompt-box prompt-system"><div class="prompt-label sys-label">🟢 ROLE (System)</div>You are a SQL expert. Match our team's coding standards exactly.</div>', unsafe_allow_html=True)
             st.markdown('<div class="prompt-box prompt-user"><div class="prompt-label usr-label">🔵 QUESTION (User)</div><b>EXAMPLE 1:</b> Daily revenue...<br><b>EXAMPLE 2:</b> Active customers...<br><br><b>Now write:</b> your actual question</div>', unsafe_allow_html=True)
         with col2:
             st.success("✅ **Use when:** Production SQL that must match your team's exact style guide.")

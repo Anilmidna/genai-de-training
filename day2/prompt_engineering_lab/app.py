@@ -568,7 +568,7 @@ def page_shot_prompting():
         """)
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown('<div class="prompt-box prompt-system"><div class="prompt-label sys-label">🟢 ROLE (System)</div>You are a SQL expert. Match our team's coding standards exactly.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="prompt-box prompt-system"><div class="prompt-label sys-label">🟢 ROLE (System)</div>You are a SQL expert. Match our coding standards exactly.</div>', unsafe_allow_html=True)
             st.markdown('<div class="prompt-box prompt-user"><div class="prompt-label usr-label">🔵 QUESTION (User)</div><b>EXAMPLE 1:</b> Daily revenue...<br><b>EXAMPLE 2:</b> Active customers...<br><br><b>Now write:</b> your actual question</div>', unsafe_allow_html=True)
         with col2:
             st.success("✅ **Use when:** Production SQL that must match your team's exact style guide.")
